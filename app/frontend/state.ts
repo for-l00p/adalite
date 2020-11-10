@@ -144,6 +144,8 @@ export interface State {
     status: string
     shouldShowSaturatedBanner: boolean
   }
+  accounts: any
+  selectedAccount: number
 }
 
 const initialState: State = {
@@ -250,6 +252,10 @@ const initialState: State = {
     status: '',
     shouldShowSaturatedBanner: false,
   },
+  accounts: {},
+  selectedAccount: 0,
 }
+export type SetStateFn = (newState: Partial<State>) => void
+export type GetStateFn = () => State
 
 export {initialState}
