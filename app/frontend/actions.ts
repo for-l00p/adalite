@@ -28,7 +28,7 @@ import captureBySentry from './helpers/captureBySentry'
 import {State, Ada, Lovelace, GetStateFn, SetStateFn} from './state'
 import CryptoProviderFactory from './wallet/byron/crypto-provider-factory'
 import ShelleyCryptoProviderFactory from './wallet/shelley/shelley-crypto-provider-factory'
-import {ShelleyWallet} from './wallet/shelley-wallet'
+import {ShelleyWallet} from './wallet/wallet'
 import getDonationAddress from './helpers/getDonationAddress'
 
 let wallet: ReturnType<typeof CardanoWallet | typeof ShelleyWallet>
