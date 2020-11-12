@@ -138,7 +138,7 @@ function computeRequiredDeposit(certs: Array<Cert>): Lovelace {
   return deposit as Lovelace
 }
 
-interface TxPlan {
+export interface TxPlan {
   inputs: Array<Input>
   outputs: Array<Output>
   change: Output | null

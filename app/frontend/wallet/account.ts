@@ -1,5 +1,4 @@
 import AddressManager from './address-manager'
-import BlockchainExplorer from './blockchain-explorer'
 import PseudoRandom from './helpers/PseudoRandom'
 import {MAX_INT32} from './constants'
 import NamedError from '../helpers/NamedError'
@@ -15,6 +14,7 @@ import {
   selectMinimalTxPlan,
   computeRequiredTxFee,
   isUtxoProfitable, // TODO: useless
+  TxPlan,
 } from './shelley/shelley-transaction-planner'
 import shuffleArray from './helpers/shuffleArray'
 import {MaxAmountCalculator} from './max-amount-calculator'
@@ -24,6 +24,7 @@ import {
   bechAddressToHex,
   isBase,
   base58AddressToHex,
+  addressToHex,
 } from './shelley/helpers/addresses'
 import {
   ShelleyTxAux,
@@ -151,9 +152,9 @@ const Account = ({
     blockchainExplorer,
   })
 
-  async function calculateTtl() {
+  function calculateTtl(): Promise<number> {
     try {
-      const bestSlot = await blockchainExplorer.getBestSlot().then((res) => res.Right.bestSlot)
+      const bestSlot = blockchainExplorer.getBestSlot().then((res) => res.Right.bestSlot)
       return bestSlot + cryptoProvider.network.ttl
     } catch (e) {
       const timePassed = Math.floor((Date.now() - cryptoProvider.network.eraStartDateTime) / 1000)
@@ -161,7 +162,7 @@ const Account = ({
     }
   }
 
-  async function prepareTxAux(plan) {
+  async function prepareTxAux(plan: TxPlan) {
     const txInputs = plan.inputs.map(ShelleyTxInputFromUtxo)
     const txOutputs = plan.outputs.map(({address, coins}) => ShelleyTxOutput(address, coins, false))
     const txCerts = plan.certs.map(({type, accountAddress, poolHash}) =>
@@ -217,7 +218,8 @@ const Account = ({
     rewards: any
   }
 
-  const utxoTxPlanner = async (args: utxoArgs, accountAddress) => {
+  const getTxPlan = async (args: utxoArgs) => {
+    const accountAddress = await myAddresses.accountAddrManager._deriveAddress(accountIndex)
     const {address, coins, donationAmount, poolHash, stakingKeyRegistered, txType, rewards} = args
     const changeAddress = await getChangeAddress()
     const availableUtxos = await getUtxos()
@@ -246,32 +248,13 @@ const Account = ({
     return plan
   }
 
-  async function getTxPlan(args: utxoArgs) {
-    // TODO: passing accountAddress to plan is useless, as well as this function
-    const accountAddress = await myAddresses.accountAddrManager._deriveAddress(accountIndex)
-    const txPlanners = {
-      sendAda: utxoTxPlanner,
-      convert: utxoTxPlanner,
-      delegate: utxoTxPlanner,
-      withdraw: utxoTxPlanner,
-    }
-    return await txPlanners[args.txType](args, accountAddress)
-  }
-
-  async function getPoolInfo(url) {
-    const poolInfo = await blockchainExplorer.getPoolInfo(url)
-    return poolInfo
-  }
-
-  async function getWalletInfo() {
-    const {validStakepools} = await getValidStakepools()
+  async function getWalletAccountInfo(validStakepools) {
     const {stakingBalance, nonStakingBalance, balance} = await getBalance()
     const shelleyAccountInfo = await getAccountInfo(validStakepools)
     const visibleAddresses = await getVisibleAddresses()
     const transactionHistory = await getHistory()
     const stakingHistory = await getStakingHistory(shelleyAccountInfo, validStakepools)
     return {
-      validStakepools,
       balance,
       shelleyBalances: {
         nonStakingBalance,
@@ -313,6 +296,12 @@ const Account = ({
     )
   }
 
+  async function getPoolInfo(url) {
+    // TODO: this has nothing to do in account
+    const poolInfo = await blockchainExplorer.getPoolInfo(url)
+    return poolInfo
+  }
+
   async function getAccountInfo(validStakepools) {
     const shelleyXpub = await accoutXpubShelley(cryptoProvider, accountIndex)
     const byronXpub = await accoutXpubByron(cryptoProvider, accountIndex)
@@ -340,14 +329,6 @@ const Account = ({
       rewardDetails,
       value: accountInfo.rewards ? parseInt(accountInfo.rewards, 10) : 0,
     }
-  }
-
-  function getValidStakepools(): Promise<any> {
-    return blockchainExplorer.getValidStakepools()
-  }
-
-  async function fetchTxInfo(txHash) {
-    return await blockchainExplorer.fetchTxInfo(txHash)
   }
 
   async function getChangeAddress() {
@@ -378,18 +359,6 @@ const Account = ({
     return addresses
   }
 
-  async function verifyAddress(addr: string) {
-    if (!('displayAddressForPath' in cryptoProvider)) {
-      throw NamedError('UnsupportedOperationError', {
-        message: 'unsupported operation: verifyAddress',
-      })
-    }
-    const absDerivationPath = myAddresses.getAddressToAbsPathMapper()(addr)
-    const stakingAddress = await myAddresses.accountAddrManager._deriveAddress(accountIndex)
-    const stakingPath = myAddresses.getAddressToAbsPathMapper()(stakingAddress)
-    return await cryptoProvider.displayAddressForPath(absDerivationPath, stakingPath)
-  }
-
   function generateNewSeeds() {
     seeds = {
       randomInputSeed: randomInputSeed || Math.floor(Math.random() * MAX_INT32),
@@ -397,20 +366,7 @@ const Account = ({
     }
   }
 
-  function checkCryptoProviderVersion() {
-    try {
-      cryptoProvider.checkVersion(true)
-    } catch (e) {
-      return {code: e.name, message: e.message}
-    }
-    return null
-  }
-
   return {
-    isHwWallet,
-    getHwWalletName,
-    getWalletSecretDef,
-    submitTx,
     signTxAux,
     getBalance,
     getChangeAddress,
@@ -421,15 +377,12 @@ const Account = ({
     getHistory,
     getVisibleAddresses,
     prepareTxAux,
-    verifyAddress,
-    fetchTxInfo,
     generateNewSeeds,
     getAccountInfo,
-    getValidStakepools,
-    getWalletInfo,
+    getWalletAccountInfo,
     getPoolInfo,
-    checkCryptoProviderVersion,
     accountIndex,
+    myAddresses,
   }
 }
 

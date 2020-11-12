@@ -12,7 +12,6 @@ import {HARDENED_THRESHOLD} from '../../constants'
 type HexString = string // TODO: specify
 
 const xpub2pub = (xpub: Buffer) => xpub.slice(0, 32)
-
 // takes xpubkey, converts it to pubkey and then to 28 byte blake2b encoded hash
 const xpub2blake2b224Hash = (xpub: Buffer) => getPubKeyBlake2b224Hash(xpub2pub(xpub))
 
@@ -66,3 +65,7 @@ export const isBase = (address: string): boolean => {
 export const isByron = (address: string): boolean => {
   return getAddressType(Buffer.from(address, 'hex')) === AddressTypes.BOOTSTRAP
 }
+
+export const addressToHex = (
+  address // TODO: move to addresses
+) => (isShelleyFormat(address) ? bechAddressToHex(address) : base58AddressToHex(address))
