@@ -33,7 +33,6 @@ import {localStorageVars} from './localStorage'
 
 let wallet: ReturnType<typeof Wallet>
 let account: ReturnType<typeof Account>
-const accounts = new Map()
 let cryptoProvider
 
 const debounceEvent = (callback, time) => {
@@ -137,14 +136,7 @@ export default ({setState, getState}: {setState: SetStateFn; getState: GetStateF
         isShelleyCompatible,
       })
 
-      const newAccount = await Account({
-        config: ADALITE_CONFIG,
-        cryptoProvider,
-        isShelleyCompatible,
-        accountIndex: 0,
-      })
-      accounts.set(0, newAccount)
-      account = accounts.get(0)
+      account = wallet.accounts[0]
 
       const walletInfo = await account.getWalletInfo()
       const conversionRatesPromise = getConversionRates(state)
@@ -1159,35 +1151,24 @@ export default ({setState, getState}: {setState: SetStateFn; getState: GetStateF
     })
   }
 
-  const loadWalletInfo = async (state) => {
-    const walletInfo = await account.getWalletInfo()
+  const loadNewAccount = async (state: State, accountIndex: number) => {
+    wallet.loadNewAccount(accountIndex)
+    const walletInfo = await wallet.accounts[accountIndex].getWalletInfo()
     setState({
       accounts: {
         ...state.accounts,
-        [account.accountIndex]: walletInfo,
+        [accountIndex]: walletInfo,
       },
     })
-    stopLoadingAction(state, {})
   }
 
-  const loadNewAccount = async (state: State, accountIndex: number) => {
+  const setAccount = async (state: State, accountIndex: number) => {
     loadingAction(state, 'Loading account')
-    const newWallet = await Account({
-      config: ADALITE_CONFIG,
-      cryptoProvider,
-      isShelleyCompatible: true,
-      accountIndex,
-    })
-    accounts.set(accountIndex, newWallet)
-    account = accounts.get(accountIndex)
-    await loadWalletInfo(state)
-  }
-
-  const setWalletInfo = async (state, accountIndex: number) => {
-    if (!accounts.has(accountIndex)) {
+    if (!wallet.accounts[accountIndex]) {
       await loadNewAccount(state, accountIndex)
     }
-    account = accounts.get(accountIndex)
+    stopLoadingAction(state, {})
+    account = wallet.accounts[accountIndex]
     const newState = getState()
     const walletInfo = newState.accounts[accountIndex]
     setState({
@@ -1203,7 +1184,7 @@ export default ({setState, getState}: {setState: SetStateFn; getState: GetStateF
     loadingAction,
     stopLoadingAction,
     setAuthMethod,
-    setWalletInfo,
+    setAccount,
     loadWallet,
     logout,
     exportJsonWallet,
