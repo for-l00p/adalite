@@ -118,4 +118,6 @@ export const RECOMMENDED_LEDGER_APP_VERSION = {
 
 export const UNKNOWN_POOL_NAME = '<Unknown pool>'
 
-export const ACCOUNT_COUNT = 5
+export const MAX_BULK_EXPORT_AMOUNT = 3
+
+export const ENABLE_BULK_EXPORT = true
