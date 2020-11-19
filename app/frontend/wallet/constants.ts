@@ -121,4 +121,7 @@ export const UNKNOWN_POOL_NAME = '<Unknown pool>'
 export const PREMIUM_MEMBER_BALANCE_TRESHHOLD = 2500000000000
 
 export const SATURATION_POINT = 62224967000000
-export const ACCOUNT_COUNT = 5
+
+export const MAX_BULK_EXPORT_AMOUNT = 3
+
+export const ENABLE_BULK_EXPORT = true

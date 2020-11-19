@@ -122,23 +122,24 @@ export default ({setState, getState}: {setState: SetStateFn; getState: GetStateF
       walletLoadingError: undefined,
     })
     const isShelleyCompatible = !(walletSecretDef && walletSecretDef.derivationScheme.type === 'v1')
+    const shouldExportPubKeyBulk = false // isShelleyCompatible && true
+    const config = {...ADALITE_CONFIG, isShelleyCompatible, shouldExportPubKeyBulk}
     try {
       cryptoProvider = await ShelleyCryptoProviderFactory.getCryptoProvider(cryptoProviderType, {
         walletSecretDef,
         network: NETWORKS.SHELLEY[ADALITE_CONFIG.ADALITE_NETWORK],
-        config: ADALITE_CONFIG,
+        config,
         isWebUSB,
       })
 
       wallet = await Wallet({
-        config: ADALITE_CONFIG,
+        config,
         cryptoProvider,
-        isShelleyCompatible,
       })
 
+      const accountsInfo = await wallet.getAccountsInfo()
       account = wallet.accounts[0] // THIS is not right
 
-      const accountsInfo = await wallet.getAccountsInfo()
       const conversionRatesPromise = getConversionRates(state)
       const usingHwWallet = wallet.isHwWallet()
       const hwWalletName = usingHwWallet ? wallet.getHwWalletName() : undefined
@@ -1150,7 +1151,7 @@ export default ({setState, getState}: {setState: SetStateFn; getState: GetStateF
   }
 
   const loadNewAccount = async (state: State, accountIndex: number) => {
-    wallet.loadNewAccount(accountIndex)
+    await wallet.loadNewAccount(accountIndex)
     const walletInfo = await wallet.accounts[accountIndex].getWalletInfo()
     setState({
       accounts: {
