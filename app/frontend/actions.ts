@@ -142,7 +142,7 @@ export default ({setState, getState}: {setState: SetStateFn; getState: GetStateF
 
       const conversionRatesPromise = getConversionRates(state)
       const usingHwWallet = wallet.isHwWallet()
-      const hwWalletName = usingHwWallet ? wallet.getHwWalletName() : undefined
+      const hwWalletName = usingHwWallet ? wallet.getWalletName() : undefined
       if (usingHwWallet) loadingAction(state, `Waiting for ${hwWalletName}...`)
       const demoRootSecret = (await mnemonicToWalletSecretDef(
         ADALITE_CONFIG.ADALITE_DEMO_WALLET_MNEMONIC
@@ -151,7 +151,8 @@ export default ({setState, getState}: {setState: SetStateFn; getState: GetStateF
       const autoLogin = state.autoLogin
       const ticker2Id = null
       const shouldShowPremiumBanner =
-        state.shouldShowPremiumBanner && walletInfo.balance > PREMIUM_MEMBER_BALANCE_TRESHHOLD
+        state.shouldShowPremiumBanner && PREMIUM_MEMBER_BALANCE_TRESHHOLD < 0
+      // should work for full wallet balance
       setState({
         accounts: accountsInfo,
         walletIsLoaded: true,
@@ -1175,7 +1176,7 @@ export default ({setState, getState}: {setState: SetStateFn; getState: GetStateF
       selectedAccount: accountIndex,
     })
     resetSendFormFields(newState)
-    selectAdaliteStakepool()
+    selectAdaliteStakepool(newState)
     resetTransactionSummary(newState)
   }
 
