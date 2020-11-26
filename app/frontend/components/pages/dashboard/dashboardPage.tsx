@@ -70,11 +70,7 @@ const AdvancedPage = () => {
 }
 
 const AccountsPage = () => {
-  return (
-    <Fragment>
-      <Accounts />
-    </Fragment>
-  )
+  return <Accounts />
 }
 
 class DashboardPage extends Component<Props> {
@@ -132,7 +128,7 @@ class DashboardPage extends Component<Props> {
               <MainTab
                 key={i}
                 name={name}
-                selectedTab={selectedMainTab}
+                selectedTab={displayStakingPage}
                 selectTab={this.selectMainTab}
               />
             ))}

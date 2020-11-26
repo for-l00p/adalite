@@ -1262,6 +1262,14 @@ button[data-balloon] {
   display: none;
 }
 
+.dashboard-column.wide {
+  flex: 1 1 75%;
+}
+
+.dashboard-column.narrow {
+  flex: 1 1 25%;
+}
+
 .dashboard-column {
   flex: 1 1 50%;
 }
@@ -1272,6 +1280,11 @@ button[data-balloon] {
 
 .dashboard-column:last-child {
   padding-left: 28px;
+}
+
+.dashboard-column.account {
+  padding-left: 0px;
+  padding-right: 0px;
 }
 
 .dashboard-column .card:not(:last-child) {
@@ -1407,6 +1420,12 @@ li.main-tab input + label.selected:after {
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.08);
 }
 
+.card-column {
+  padding-left: 8px;
+  flex-grow: 1;
+  flex-basis: 25%;
+}
+
 .card-title {
   margin-bottom: 24px;
   font-size: 16px;
@@ -1424,6 +1443,10 @@ li.main-tab input + label.selected:after {
 
 .card-title.small-margin {
   margin-bottom: 12px;
+}
+
+.card.account {
+  display: flex;
 }
 
 /* AUTHENTICATION */
@@ -2175,10 +2198,20 @@ li.main-tab input + label.selected:after {
   position: relative;
 }
 
+.balance-amount.small {
+  font-size: 24px;
+}
+
 .balance-amount svg {
   margin-left: 12px;
   width: 18px;
+}
+
+.balance-amount.small svg {
+  margin-left: 12px;
+  width: 14px;
 } 
+
 
 .balance-amount svg path {
   fill: var(--color-brand);
