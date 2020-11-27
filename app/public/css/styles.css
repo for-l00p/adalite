@@ -1567,6 +1567,12 @@ li.main-tab input + label.selected:after {
   display: none;
 }
 
+.authentication-hw-byron-public-export {
+  padding-bottom: 24px;
+  margin: auto;
+}
+
+
 /* AUTHENTICATION TABS */
 
 .auth-tabs {

@@ -116,13 +116,16 @@ export default ({setState, getState}: {setState: SetStateFn; getState: GetStateF
 
   /* LOADING WALLET */
 
-  const loadWallet = async (state, {cryptoProviderType, walletSecretDef, isWebUSB}) => {
+  const loadWallet = async (
+    state,
+    {cryptoProviderType, walletSecretDef, isWebUSB, bulkExportPubKeys}
+  ) => {
     // loadingAction(state, `Waiting for ${state.hwWalletName}...`)
     loadingAction(state, 'Loading wallet data...', {
       walletLoadingError: undefined,
     })
     const isShelleyCompatible = !(walletSecretDef && walletSecretDef.derivationScheme.type === 'v1')
-    const shouldExportPubKeyBulk = true // isShelleyCompatible && true
+    const shouldExportPubKeyBulk = bulkExportPubKeys
     const config = {...ADALITE_CONFIG, isShelleyCompatible, shouldExportPubKeyBulk}
     try {
       cryptoProvider = await ShelleyCryptoProviderFactory.getCryptoProvider(cryptoProviderType, {
