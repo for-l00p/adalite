@@ -61,7 +61,7 @@ const LoadByHardwareWalletSection = ({loadWallet}: Props) => {
             onClick={() =>
               loadWallet({
                 cryptoProviderType: CRYPTO_PROVIDER_TYPES.TREZOR,
-                bulkExportPubKeys,
+                bulkExportPubKeys: !bulkExportPubKeys,
               })
             }
           >
@@ -93,7 +93,7 @@ const LoadByHardwareWalletSection = ({loadWallet}: Props) => {
             onClick={() =>
               loadWallet({
                 cryptoProviderType: CRYPTO_PROVIDER_TYPES.LEDGER,
-                bulkExportPubKeys,
+                bulkExportPubKeys: !bulkExportPubKeys,
               })
             }
           >
@@ -107,7 +107,7 @@ const LoadByHardwareWalletSection = ({loadWallet}: Props) => {
               loadWallet({
                 cryptoProviderType: CRYPTO_PROVIDER_TYPES.LEDGER,
                 isWebUSB: true,
-                bulkExportPubKeys,
+                bulkExportPubKeys: !bulkExportPubKeys,
               })
             }
           >
