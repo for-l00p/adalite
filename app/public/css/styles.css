@@ -637,7 +637,6 @@ button[data-balloon] {
   content: attr(data-balloon);
   padding: 8px;
   position: absolute;
-  white-space: pre;
   z-index: 10;
   font-size: 14px;
   line-height: 24px;
@@ -4296,8 +4295,8 @@ input:checked + .slider:before {
     display: none;
   }
 
-  [data-balloon]::hover::after,
-  [data-ballon]::hover::before {
+  [data-balloon]:hover::after,
+  [data-ballon]:hover::before {
     display: none;
   }
 

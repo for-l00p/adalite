@@ -58,7 +58,7 @@ const AddressManager = ({addressProvider, gapLimit, blockchainExplorer}) => {
 
   function getAddressToAbsPathMapping() {
     const result = {}
-    Object.keys(deriveAddressMemo).map((key) => {
+    Object.keys(deriveAddressMemo).forEach((key) => {
       const value = deriveAddressMemo[key]
       result[value.address] = value.path
     })
