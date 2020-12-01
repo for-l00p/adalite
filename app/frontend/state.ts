@@ -154,17 +154,13 @@ const initialState: State = {
     hint: 'Hint: Ensure that your mnemonic is without mistake.',
   },
   displayWelcome:
-    !(window.localStorage.getItem(localStorageVars.WELCOME) === 'true') &&
+    window.localStorage.getItem(localStorageVars.WELCOME) !== 'true' &&
     ADALITE_CONFIG.ADALITE_DEVEL_AUTO_LOGIN !== 'true',
   currentTab: 'wallet-info',
   walletIsLoaded: false,
-  shouldShowStakingBanner: !(
-    window.localStorage.getItem(localStorageVars.STAKING_BANNER) === 'true'
-  ),
-  shouldShowPremiumBanner: !(
-    window.localStorage.getItem(localStorageVars.PREMIUM_BANNER) === 'true'
-  ),
-  displayInfoModal: !(window.localStorage.getItem(localStorageVars.INFO_MODAL) === 'true'),
+  shouldShowStakingBanner: window.localStorage.getItem(localStorageVars.STAKING_BANNER) !== 'true',
+  shouldShowPremiumBanner: window.localStorage.getItem(localStorageVars.PREMIUM_BANNER) !== 'true',
+  displayInfoModal: window.localStorage.getItem(localStorageVars.INFO_MODAL) !== 'true',
   errorBannerContent: '',
   visibleAddresses: [],
   // todo - object (sub-state) from send-ada form

@@ -149,7 +149,7 @@ export default ({setState, getState}: {setState: SetStateFn; getState: GetStateF
             }
           )
 
-          wallet = await ShelleyWallet({
+          wallet = ShelleyWallet({
             config: ADALITE_CONFIG,
             cryptoProvider,
             isShelleyCompatible,
@@ -659,7 +659,7 @@ export default ({setState, getState}: {setState: SetStateFn; getState: GetStateF
       }
     }
 
-    const percentageProperties = await getPercentageDonationProperties()
+    const percentageProperties = getPercentageDonationProperties()
     return {
       text: percentageProperties.text,
       value: percentageProperties.value,

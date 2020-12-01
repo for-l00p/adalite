@@ -3,7 +3,7 @@ import {useState, useCallback} from 'preact/hooks'
 import {DropdownCaret} from './svg'
 
 interface Props {
-  initialVisibility: Boolean
+  initialVisibility: boolean
   header: h.JSX.Element
   body: h.JSX.Element
 }

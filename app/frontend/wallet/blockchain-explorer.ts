@@ -106,7 +106,7 @@ const blockchainExplorer = (ADALITE_CONFIG) => {
   }
 
   // TODO: we should have an endpoint for this
-  async function filterUsedAddresses(addresses: Array<String>) {
+  async function filterUsedAddresses(addresses: Array<string>) {
     const txHistory = await getTxHistory(addresses)
     const usedAddresses = new Set()
     txHistory.forEach((trx) => {
@@ -163,7 +163,7 @@ const blockchainExplorer = (ADALITE_CONFIG) => {
     const chunks = range(0, Math.ceil(addresses.length / gapLimit))
 
     const url = `${ADALITE_CONFIG.ADALITE_BLOCKCHAIN_EXPLORER_URL}/api/bulk/addresses/utxo`
-    const response = (await Promise.all(
+    const utxos = (await Promise.all(
       chunks.map(async (index) => {
         const beginIndex = index * gapLimit
         const response = await request(
@@ -179,7 +179,7 @@ const blockchainExplorer = (ADALITE_CONFIG) => {
       })
     )).reduce((acc, cur) => acc.concat(cur), [])
 
-    return response.map((elem) => {
+    return utxos.map((elem) => {
       return {
         txHash: elem.cuId,
         address: elem.cuAddress,
