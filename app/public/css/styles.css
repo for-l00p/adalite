@@ -1426,6 +1426,10 @@ li.main-tab input + label.selected:after {
   flex-basis: 25%;
 }
 
+.card-column > button {
+  width: 80%;
+}
+
 .card-title {
   margin-bottom: 24px;
   font-size: 16px;
@@ -2856,6 +2860,11 @@ input:checked + .slider:before {
 }
 
 /* DELEGATIONS */
+
+.delegation-account {
+  font-size: 20px;
+  line-height: 48px;
+}
 
 .delegation-fee {
   padding-left: 16px;

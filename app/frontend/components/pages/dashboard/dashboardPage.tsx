@@ -98,11 +98,13 @@ class DashboardPage extends Component<Props> {
       displayInfoModal,
       shouldShowPremiumBanner,
       shouldShowSaturatedBanner,
+      selectedAccount,
     },
     {selectedMainTab}
   ) {
     // TODO: this approach doesnt allow multi-word tabs
     const mainTabs = ['Accounts', 'Sending', 'Staking', 'Advanced']
+    // TODO: refactor this ^ to array of objects
     const displayedPages = {
       Accounts: <AccountsPage />,
       Sending: <SendingPage shouldShowExportOption={shouldShowExportOption} />,
@@ -130,6 +132,7 @@ class DashboardPage extends Component<Props> {
                 name={name}
                 selectedTab={displayStakingPage}
                 selectTab={this.selectMainTab}
+                displayName={name === 'Accounts' && `Account #${selectedAccount}`}
               />
             ))}
           </ul>
@@ -218,6 +221,7 @@ export default connect(
     shouldShowNonShelleyCompatibleDialog: state.shouldShowNonShelleyCompatibleDialog,
     shouldShowPremiumBanner: state.shouldShowPremiumBanner,
     shouldShowSaturatedBanner: state.poolRecommendation.shouldShowSaturatedBanner,
+    selectedAccount: state.selectedAccount,
   }),
   actions
 )(DashboardPage)

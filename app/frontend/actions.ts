@@ -197,20 +197,19 @@ export default ({setState, getState}: {setState: SetStateFn; getState: GetStateF
     return true
   }
 
+  //TODO reloadAccountInfo function
+
   const reloadWalletInfo = async (state) => {
     loadingAction(state, 'Reloading wallet info...')
     try {
-      const walletInfo = await account.getWalletInfo()
+      const accountsInfo = await wallet.getAccountsInfo()
       const conversionRates = getConversionRates(state)
 
       // timeout setting loading state, so that loading shows even if everything was cached
       setTimeout(() => setState({loading: false}), 500)
       setState({
-        accounts: {
-          ...state.accounts,
-          [account.accountIndex]: walletInfo,
-        },
-        ...walletInfo,
+        accounts: accountsInfo,
+        ...accountsInfo[account.accountIndex],
       })
       await fetchConversionRates(conversionRates)
     } catch (e) {
@@ -1182,6 +1181,8 @@ export default ({setState, getState}: {setState: SetStateFn; getState: GetStateF
     resetSendFormFields(newState)
     selectAdaliteStakepool(newState)
     resetTransactionSummary(newState)
+    toggleDisplayStakingPage(newState, 'Sending')
+    window.scrollTo({top: 0, behavior: 'smooth'})
   }
 
   return {

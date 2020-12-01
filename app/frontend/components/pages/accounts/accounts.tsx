@@ -5,22 +5,24 @@ import range from '../../../../frontend/wallet/helpers/range'
 import printAda from '../../../helpers/printAda'
 import {Lovelace} from '../../../state'
 import {AdaIcon} from '../../common/svg'
-import {UNKNOWN_POOL_NAME} from '../../../../frontend/wallet/constants'
 
-const Account = ({i, account, setAccount, selectedAccount, toggleDisplayStakingPage}) => {
+const Account = ({i, account, setAccount, selectedAccount}) => {
+  const buttonLabel = () => {
+    if (selectedAccount === i) return 'Active'
+    if (!account) return `Explore #${i}`
+    return `Activate #${i}`
+  }
   return (
     <div key={i} className="card account" style={'width: 75%;'}>
-      <div className="card-column" style="align-self: center;">
+      <div className="card-column" style="align-self: center; width">
         <button
           className="button primary"
-          disabled={false} //{selectedAccount === i}
+          disabled={selectedAccount === i}
           onClick={() => {
             setAccount(i)
-            toggleDisplayStakingPage('Sending')
-            window.scrollTo({top: 0, behavior: 'smooth'})
           }}
         >
-          Account {i}
+          {buttonLabel()}
         </button>
       </div>
       <div className="card-column">
@@ -29,7 +31,8 @@ const Account = ({i, account, setAccount, selectedAccount, toggleDisplayStakingP
           {printAda(
             account
               ? account.shelleyBalances.stakingBalance + account.shelleyBalances.nonStakingBalance
-              : 0
+              : 0,
+            3
           )}
           <AdaIcon />
         </div>
@@ -37,23 +40,21 @@ const Account = ({i, account, setAccount, selectedAccount, toggleDisplayStakingP
       <div className="card-column">
         <h2 className="card-title small-margin">Rewards balance</h2>
         <div className="balance-amount small">
-          {printAda(account ? account.shelleyBalances.rewardsAccountBalance : 0)}
+          {printAda(account ? account.shelleyBalances.rewardsAccountBalance : 0, 3)}
           <AdaIcon />
         </div>
       </div>
       <div className="card-column">
         <h2 className="card-title small-margin">Delegation</h2>
-        <div>
-          {account
-            ? account.shelleyAccountInfo.delegation.name || UNKNOWN_POOL_NAME
-            : 'Not delegated'}
+        <div className="delegation-account">
+          {account ? account.shelleyAccountInfo.delegation.ticker || '-' : '-'}
         </div>
       </div>
     </div>
   )
 }
 
-const Accounts = ({accounts, setAccount, selectedAccount, toggleDisplayStakingPage}) => {
+const Accounts = ({accounts, setAccount, selectedAccount, reloadWalletInfo}) => {
   const accountInfos = Object.values(accounts)
   const totalBalance = accountInfos.reduce(
     (a, {shelleyBalances}) =>
@@ -64,6 +65,7 @@ const Accounts = ({accounts, setAccount, selectedAccount, toggleDisplayStakingPa
     (a, {shelleyBalances}) => shelleyBalances.rewardsAccountBalance + a,
     0
   )
+
   return (
     <Fragment>
       <div className="dashboard-column account">
@@ -82,19 +84,26 @@ const Accounts = ({accounts, setAccount, selectedAccount, toggleDisplayStakingPa
               <AdaIcon />
             </div>
           </div>
+          <div className="card-column">
+            <button className="button secondary balance refresh" onClick={reloadWalletInfo}>
+              Refresh
+            </button>
+          </div>
         </div>
         <div className="dashboard-column account wide">
           <div>
-            {range(0, Object.keys(accounts).length + 1).map((i) => (
-              <Account
-                key={i}
-                i={i}
-                account={accounts[i]}
-                setAccount={setAccount}
-                selectedAccount={selectedAccount}
-                toggleDisplayStakingPage={toggleDisplayStakingPage}
-              />
-            ))}
+            {range(0, Object.keys(accounts).length + 1).map(
+              (i) =>
+                (i === 0 || accounts[i - 1].isUsed) && (
+                  <Account
+                    key={i}
+                    i={i}
+                    account={accounts[i]}
+                    setAccount={setAccount}
+                    selectedAccount={selectedAccount}
+                  />
+                )
+            )}
           </div>
           <div className="dashboard-column account narrow"> </div>
         </div>
