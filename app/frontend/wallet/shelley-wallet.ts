@@ -36,6 +36,7 @@ import {
   ShelleyWitdrawal,
 } from './shelley/shelley-transaction'
 import {StakingHistoryObject} from '../components/pages/delegations/stakingHistoryPage'
+import {getRandomNumber} from '../helpers/random'
 
 const MyAddresses = ({accountIndex, cryptoProvider, gapLimit, blockchainExplorer}) => {
   const legacyExtManager = AddressManager({
@@ -466,8 +467,8 @@ const ShelleyWallet = ({
 
   function generateNewSeeds() {
     seeds = {
-      randomInputSeed: randomInputSeed || Math.floor(Math.random() * MAX_INT32),
-      randomChangeSeed: randomChangeSeed || Math.floor(Math.random() * MAX_INT32),
+      randomInputSeed: randomInputSeed || Math.floor(getRandomNumber()),
+      randomChangeSeed: randomChangeSeed || Math.floor(getRandomNumber()),
     }
   }
 

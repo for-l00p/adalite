@@ -2,13 +2,15 @@
 * Source: https://stackoverflow.com/questions/424292/seedable-javascript-random-number-generator
 */
 
+import {getRandomNumber} from '../../helpers/random'
+
 function PseudoRandom(seed) {
   // LCG using GCC's constants
   const m = 0x80000000 // 2**31;
   const a = 1103515245
   const c = 12345
 
-  let state = seed || Math.floor(Math.random() * (this.m - 1))
+  let state = seed || Math.floor(getRandomNumber() * (this.m - 1))
 
   function nextInt() {
     state = (a * state + c) % m

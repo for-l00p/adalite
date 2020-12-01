@@ -13,6 +13,7 @@ import {MaxAmountCalculator} from './max-amount-calculator'
 // eslint-disable-next-line no-unused-vars
 import {TxPlan} from './shelley/build-transaction'
 import {ADALITE_CONFIG} from '../config'
+import {getRandomNumber} from '../helpers/random'
 
 const {
   getMaxDonationAmount: _getMaxDonationAmount,
@@ -247,8 +248,8 @@ const CardanoWallet = (options) => {
 
   function generateNewSeeds() {
     seeds = {
-      randomInputSeed: randomInputSeed || Math.floor(Math.random() * MAX_INT32),
-      randomChangeSeed: randomChangeSeed || Math.floor(Math.random() * MAX_INT32),
+      randomInputSeed: randomInputSeed || Math.floor(getRandomNumber()),
+      randomChangeSeed: randomChangeSeed || Math.floor(getRandomNumber()),
     }
   }
 
