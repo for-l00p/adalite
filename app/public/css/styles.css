@@ -4615,6 +4615,8 @@ input:checked + .slider:before {
   /* MAIN TABS */
 
   .tabinator {
+    display: flex;
+    flex-wrap: wrap;
     padding-bottom: unset;
     /* margin: 32px 0 -12px 0; */
     box-shadow: unset;
@@ -4622,6 +4624,7 @@ input:checked + .slider:before {
 
   .tabinator li {
     display: unset;
+    flex: 0 0 50%;
   }
 
   .tabinator label:before {
@@ -4633,7 +4636,6 @@ input:checked + .slider:before {
     display: inline-block;
     padding: 15px 25px;
     color: var(--color-grey);
-    width: calc(100% / 4);
     text-align: center;
   }
 
@@ -5088,7 +5090,7 @@ input:checked + .slider:before {
   }
 
   li.main-tab label {
-    width: calc(100% / 3);
+    width: calc(100% / 4);
   }
 
   .tabinator li {
