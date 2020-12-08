@@ -6,7 +6,7 @@ import SendAdaPage from '../sendAda/sendAdaPage'
 
 const SendTrasactionModal = ({closeSendTransactionModal}) => (
   <Modal onRequestClose={closeSendTransactionModal}>
-    <SendAdaPage />
+    <SendAdaPage showDonationFields={false} />
   </Modal>
 )
 
