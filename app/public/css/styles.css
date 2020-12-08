@@ -1148,6 +1148,11 @@ button[data-balloon] {
   margin-bottom: 16px;
 }
 
+.modal-content .card {
+  padding: unset;
+  box-shadow: unset;
+}
+
 /* MAIN PAGE */
 
 .wrap {

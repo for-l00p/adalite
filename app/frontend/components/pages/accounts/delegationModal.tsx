@@ -6,7 +6,7 @@ import DelegatePage from '../delegations/delegatePage'
 
 const DelegationModal = ({closeDelegationModal}) => (
   <Modal onRequestClose={closeDelegationModal}>
-    <DelegatePage />
+    <DelegatePage withAccordion={false} />
   </Modal>
 )
 
