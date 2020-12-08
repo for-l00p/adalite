@@ -6,8 +6,17 @@ import printAda from '../../../helpers/printAda'
 import {Lovelace} from '../../../state'
 import {AdaIcon} from '../../common/svg'
 import Alert from '../../common/alert'
+import SendTransactionModal from './sendTransactionModal'
+import DelegationModal from './delegationModal'
 
-const Account = ({i, account, setAccount, selectedAccount}) => {
+const Account = ({
+  i,
+  account,
+  setAccount,
+  selectedAccount,
+  shouldShowSendTransactionModal,
+  shouldShowDelegationModal,
+}) => {
   const buttonLabel = () => {
     if (selectedAccount === i) return 'Active'
     if (!account) return `Explore #${i}`
@@ -41,11 +50,27 @@ const Account = ({i, account, setAccount, selectedAccount}) => {
         <h2 className="card-title small-margin">Available balance</h2>
         <div className="balance-amount small item">
           {account ? (
-            <Balance
-              value={
-                account.shelleyBalances.stakingBalance + account.shelleyBalances.nonStakingBalance
-              }
-            />
+            <Fragment>
+              <Balance
+                value={
+                  account.shelleyBalances.stakingBalance + account.shelleyBalances.nonStakingBalance
+                }
+              />
+              <button
+                className="button primary nowrap account-button"
+                disabled={selectedAccount === i}
+                onClick={shouldShowSendTransactionModal}
+              >
+                S
+              </button>
+              <button
+                className="button primary nowrap account-button"
+                disabled={selectedAccount === i}
+                onClick={shouldShowSendTransactionModal}
+              >
+                R
+              </button>
+            </Fragment>
           ) : (
             '-'
           )}
@@ -54,20 +79,57 @@ const Account = ({i, account, setAccount, selectedAccount}) => {
       <div className="card-column account-item-info-wrapper">
         <h2 className="card-title small-margin">Rewards balance</h2>
         <div className="balance-amount small item">
-          {account ? <Balance value={account.shelleyBalances.rewardsAccountBalance} /> : '-'}
+          {account ? (
+            <Fragment>
+              <Balance value={account.shelleyBalances.rewardsAccountBalance} />
+              <button
+                className="button primary nowrap account-button"
+                disabled={selectedAccount === i}
+                onClick={() => {
+                  return
+                }}
+              >
+                W
+              </button>
+            </Fragment>
+          ) : (
+            '-'
+          )}
         </div>
       </div>
       <div className="card-column account-item-info-wrapper">
         <h2 className="card-title small-margin">Delegation</h2>
         <div className="delegation-account item">
-          {account ? account.shelleyAccountInfo.delegation.ticker || '-' : '-'}
+          {account
+            ? (
+              <Fragment>
+                {account.shelleyAccountInfo.delegation.ticker}
+                <button
+                  className="button primary nowrap account-button"
+                  disabled={selectedAccount === i}
+                  onClick={shouldShowDelegationModal}
+                >
+                    D
+                </button>
+              </Fragment>
+            ) || '-'
+            : '-'}
         </div>
       </div>
     </div>
   )
 }
 
-const Accounts = ({accounts, setAccount, selectedAccount, reloadWalletInfo}) => {
+const Accounts = ({
+  accounts,
+  setAccount,
+  selectedAccount,
+  reloadWalletInfo,
+  showTransactionModal,
+  showDelegationModal,
+  shouldShowSendTransactionModal,
+  shouldShowDelegationModal,
+}) => {
   const accountInfos = Object.values(accounts)
   const totalBalance = accountInfos.reduce(
     (a, {shelleyBalances}) =>
@@ -110,6 +172,8 @@ const Accounts = ({accounts, setAccount, selectedAccount, reloadWalletInfo}) => 
 
   return (
     <Fragment>
+      {showTransactionModal && <SendTransactionModal />}
+      {showDelegationModal && <DelegationModal />}
       <div className="dashboard-column account">
         <div className="card account-aggregated">
           <div className="balance">
@@ -149,6 +213,8 @@ const Accounts = ({accounts, setAccount, selectedAccount, reloadWalletInfo}) => 
                       account={accounts[i]}
                       setAccount={setAccount}
                       selectedAccount={selectedAccount}
+                      shouldShowSendTransactionModal={shouldShowSendTransactionModal}
+                      shouldShowDelegationModal={shouldShowDelegationModal}
                     />
                   )
               )}
@@ -168,6 +234,8 @@ export default connect(
     isDemoWallet: state.isDemoWallet,
     accounts: state.accounts,
     selectedAccount: state.selectedAccount,
+    showTransactionModal: state.shouldShowSendTransactionModal,
+    showDelegationModal: state.shouldShowDelegationModal,
   }),
   actions
 )(Accounts)

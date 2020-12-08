@@ -146,6 +146,8 @@ export interface State {
   }
   accounts: any
   selectedAccount: number
+  shouldShowSendTransactionModal: boolean
+  shouldShowDelegationModal: boolean
 }
 
 const initialState: State = {
@@ -255,6 +257,8 @@ const initialState: State = {
   },
   accounts: {},
   selectedAccount: 0,
+  shouldShowSendTransactionModal: false,
+  shouldShowDelegationModal: false,
 }
 export type SetStateFn = (newState: Partial<State>) => void
 export type GetStateFn = () => State

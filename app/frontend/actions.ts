@@ -1154,6 +1154,8 @@ export default ({setState, getState}: {setState: SetStateFn; getState: GetStateF
     })
   }
 
+  /* MULTIPLE ACCOUNTS */
+
   const loadNewAccount = async (state: State, accountIndex: number) => {
     await wallet.loadNewAccount(accountIndex)
     const walletInfo = await wallet.accounts[accountIndex].getWalletInfo()
@@ -1183,6 +1185,30 @@ export default ({setState, getState}: {setState: SetStateFn; getState: GetStateF
     resetTransactionSummary(newState)
     toggleDisplayStakingPage(newState, 'Sending')
     window.scrollTo({top: 0, behavior: 'smooth'})
+  }
+
+  const shouldShowSendTransactionModal = (state) => {
+    setState({
+      shouldShowSendTransactionModal: true,
+    })
+  }
+
+  const closeSendTransactionModal = (state) => {
+    setState({
+      shouldShowSendTransactionModal: false,
+    })
+  }
+
+  const shouldShowDelegationModal = (state) => {
+    setState({
+      shouldShowDelegationModal: true,
+    })
+  }
+
+  const closeDelegationModal = (state) => {
+    setState({
+      shouldShowDelegationModal: false,
+    })
   }
 
   return {
@@ -1236,5 +1262,9 @@ export default ({setState, getState}: {setState: SetStateFn; getState: GetStateF
     openInfoModal,
     closeInfoModal,
     closePremiumBanner,
+    shouldShowSendTransactionModal,
+    closeSendTransactionModal,
+    shouldShowDelegationModal,
+    closeDelegationModal,
   }
 }
