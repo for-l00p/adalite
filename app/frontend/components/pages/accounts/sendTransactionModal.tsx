@@ -4,13 +4,20 @@ import actions from '../../../actions'
 import Modal from '../../common/modal'
 import SendAdaPage from '../sendAda/sendAdaPage'
 
-const SendTrasactionModal = ({closeSendTransactionModal}) => (
+interface Props {
+  closeSendTransactionModal: any
+  title: string
+}
+
+const SendTransactionModal = ({closeSendTransactionModal, title}: Props) => (
   <Modal onRequestClose={closeSendTransactionModal}>
-    <SendAdaPage showDonationFields={false} />
+    <SendAdaPage showDonationFields={false} lockAddress title={title} />
   </Modal>
 )
 
 export default connect(
-  (state) => ({}),
+  (state) => ({
+    title: state.sendTransactionTitle,
+  }),
   actions
-)(SendTrasactionModal)
+)(SendTransactionModal)

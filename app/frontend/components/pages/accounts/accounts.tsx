@@ -12,10 +12,11 @@ import DelegationModal from './delegationModal'
 const Account = ({
   i,
   account,
+  firstAddressPerAccount,
   setAccount,
   selectedAccount,
-  shouldShowSendTransactionModal,
   shouldShowDelegationModal,
+  shouldShowSendTransactionModal,
 }) => {
   const buttonLabel = () => {
     if (selectedAccount === i) return 'Active'
@@ -59,16 +60,26 @@ const Account = ({
               <button
                 className="button primary nowrap account-button"
                 disabled={selectedAccount === i}
-                onClick={shouldShowSendTransactionModal}
+                onClick={() =>
+                  shouldShowSendTransactionModal(
+                    firstAddressPerAccount[selectedAccount],
+                    `Send ADA from account ${i} to account ${selectedAccount}`
+                  )
+                }
               >
-                S
+                F
               </button>
               <button
                 className="button primary nowrap account-button"
                 disabled={selectedAccount === i}
-                onClick={shouldShowSendTransactionModal}
+                onClick={() =>
+                  shouldShowSendTransactionModal(
+                    firstAddressPerAccount[i],
+                    `Send ADA from account ${selectedAccount} to account ${i}`
+                  )
+                }
               >
-                R
+                T
               </button>
             </Fragment>
           ) : (
@@ -84,7 +95,6 @@ const Account = ({
               <Balance value={account.shelleyBalances.rewardsAccountBalance} />
               <button
                 className="button primary nowrap account-button"
-                disabled={selectedAccount === i}
                 onClick={() => {
                   return
                 }}
@@ -106,8 +116,7 @@ const Account = ({
                 {account.shelleyAccountInfo.delegation.ticker}
                 <button
                   className="button primary nowrap account-button"
-                  disabled={selectedAccount === i}
-                  onClick={shouldShowDelegationModal}
+                  onClick={() => shouldShowDelegationModal(`Delegate Account ${i} Stake`)}
                 >
                     D
                 </button>
@@ -140,6 +149,7 @@ const Accounts = ({
     (a, {shelleyBalances}) => shelleyBalances.rewardsAccountBalance + a,
     0
   )
+  const firstAddressPerAccount = accountInfos.map((e: any) => e.visibleAddresses[0].address)
   const InfoAlert = () => (
     <Fragment>
       <div className="dashboard-column account sidebar-item info">
@@ -211,6 +221,7 @@ const Accounts = ({
                       key={i}
                       i={i}
                       account={accounts[i]}
+                      firstAddressPerAccount={firstAddressPerAccount}
                       setAccount={setAccount}
                       selectedAccount={selectedAccount}
                       shouldShowSendTransactionModal={shouldShowSendTransactionModal}

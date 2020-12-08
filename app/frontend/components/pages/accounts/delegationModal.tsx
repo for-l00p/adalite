@@ -4,13 +4,20 @@ import actions from '../../../actions'
 import Modal from '../../common/modal'
 import DelegatePage from '../delegations/delegatePage'
 
-const DelegationModal = ({closeDelegationModal}) => (
+interface Props {
+  closeDelegationModal: any
+  title: string
+}
+
+const DelegationModal = ({closeDelegationModal, title}: Props) => (
   <Modal onRequestClose={closeDelegationModal}>
-    <DelegatePage withAccordion={false} />
+    <DelegatePage withAccordion={false} title={title} />
   </Modal>
 )
 
 export default connect(
-  (state) => ({}),
+  (state) => ({
+    title: state.delegationTitle,
+  }),
   actions
 )(DelegationModal)

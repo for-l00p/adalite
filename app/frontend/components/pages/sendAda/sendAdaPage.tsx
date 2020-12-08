@@ -62,6 +62,8 @@ interface Props {
   transactionFee: any
   balance: any
   showDonationFields: boolean
+  lockAddress: boolean
+  title: string
 }
 
 class SendAdaPage extends Component<Props> {
@@ -95,6 +97,8 @@ class SendAdaPage extends Component<Props> {
     txSuccessTab,
     balance,
     showDonationFields,
+    lockAddress,
+    title,
   }) {
     const sendFormValidationError =
       sendAddressValidationError || sendAmountValidationError || donationAmountValidationError
@@ -110,7 +114,7 @@ class SendAdaPage extends Component<Props> {
 
     return (
       <div className="send card">
-        <h2 className="card-title">Send ADA</h2>
+        <h2 className="card-title">{title}</h2>
         <input
           type="text"
           id="send-address"
@@ -121,6 +125,7 @@ class SendAdaPage extends Component<Props> {
           onInput={updateAddress}
           autoComplete="off"
           onKeyDown={(e) => e.key === 'Enter' && this.amountField.focus()}
+          disabled={lockAddress}
         />
         <div className="send-values">
           <label className="ada-label amount" htmlFor="send-amount">
@@ -227,6 +232,8 @@ class SendAdaPage extends Component<Props> {
 
 SendAdaPage.defaultProps = {
   showDonationFields: true,
+  lockAddress: false,
+  title: 'Send ADA',
 }
 
 export default connect(

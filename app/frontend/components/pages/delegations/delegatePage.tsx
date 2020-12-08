@@ -90,6 +90,7 @@ interface Props {
   poolRecommendation: any
   pool: any
   withAccordion: boolean
+  title: string
 }
 
 class Delegate extends Component<Props> {
@@ -119,6 +120,7 @@ class Delegate extends Component<Props> {
     poolRecommendation,
     pool,
     withAccordion,
+    title,
   }) {
     const delegationHandler = async () => {
       await confirmTransaction('delegate')
@@ -126,7 +128,7 @@ class Delegate extends Component<Props> {
     const validationError =
       delegationValidationError || stakePool.validationError || stakePool.poolHash === ''
 
-    const DelegationHeader = () => <h2 className="card-title no-margin">Delegate Stake</h2>
+    const DelegationHeader = () => <h2 className="card-title no-margin">{title}</h2>
     const DelegationContent = () => (
       <Fragment>
         <div className="stake-pool">
@@ -219,6 +221,7 @@ class Delegate extends Component<Props> {
 
 Delegate.defaultProps = {
   withAccordion: true,
+  title: 'Delegate Stake',
 }
 
 export default connect(

@@ -1187,20 +1187,25 @@ export default ({setState, getState}: {setState: SetStateFn; getState: GetStateF
     window.scrollTo({top: 0, behavior: 'smooth'})
   }
 
-  const shouldShowSendTransactionModal = (state) => {
+  const shouldShowSendTransactionModal = (state, address, title) => {
     setState({
+      sendTransactionTitle: title,
+      sendAddress: {fieldValue: address},
       shouldShowSendTransactionModal: true,
     })
   }
 
   const closeSendTransactionModal = (state) => {
     setState({
+      sendAddress: {fieldValue: ''},
+      sendAmount: {fieldValue: '', coins: 0},
       shouldShowSendTransactionModal: false,
     })
   }
 
-  const shouldShowDelegationModal = (state) => {
+  const shouldShowDelegationModal = (state, title) => {
     setState({
+      delegationTitle: title,
       shouldShowDelegationModal: true,
     })
   }
