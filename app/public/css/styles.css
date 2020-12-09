@@ -4723,6 +4723,10 @@ input:checked + .slider:before {
     display: none;
   }
 
+  .send .card-title.show {
+    display: block;
+  }
+
   .send-values,
   .send-total  {
     grid-template-columns: 72px 1fr;
