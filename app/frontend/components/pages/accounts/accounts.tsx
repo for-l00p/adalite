@@ -57,34 +57,36 @@ const Account = ({
                   account.shelleyBalances.stakingBalance + account.shelleyBalances.nonStakingBalance
                 }
               />
-              <button
-                className="button primary nowrap account-button"
-                disabled={selectedAccount === i}
-                onClick={() =>
-                  shouldShowSendTransactionModal(
-                    firstAddressPerAccount[selectedAccount],
-                    `Send ADA from account ${i} to account ${selectedAccount}`
-                  )
-                }
-              >
-                F
-              </button>
-              <button
-                className="button primary nowrap account-button"
-                disabled={selectedAccount === i}
-                onClick={() =>
-                  shouldShowSendTransactionModal(
-                    firstAddressPerAccount[i],
-                    `Send ADA from account ${selectedAccount} to account ${i}`
-                  )
-                }
-              >
-                T
-              </button>
             </Fragment>
           ) : (
             '-'
           )}
+        </div>
+        <div className="account-action-buttons">
+          <button
+            className="button primary nowrap account-button"
+            disabled={selectedAccount === i}
+            onClick={() =>
+              shouldShowSendTransactionModal(
+                firstAddressPerAccount[selectedAccount],
+                `Send ADA from account ${i} to account ${selectedAccount}`
+              )
+            }
+          >
+            Send from
+          </button>
+          <button
+            className="button primary nowrap account-button"
+            disabled={selectedAccount === i}
+            onClick={() =>
+              shouldShowSendTransactionModal(
+                firstAddressPerAccount[i],
+                `Send ADA from account ${selectedAccount} to account ${i}`
+              )
+            }
+          >
+            Send to
+          </button>
         </div>
       </div>
       <div className="card-column account-item-info-wrapper">
@@ -93,36 +95,36 @@ const Account = ({
           {account ? (
             <Fragment>
               <Balance value={account.shelleyBalances.rewardsAccountBalance} />
-              <button
-                className="button primary nowrap account-button"
-                onClick={() => {
-                  return
-                }}
-              >
-                W
-              </button>
             </Fragment>
           ) : (
             '-'
           )}
+        </div>
+        <div className="account-action-buttons">
+          <button
+            className="button primary nowrap account-button"
+            onClick={() => {
+              return
+            }}
+          >
+            Withdraw
+          </button>
         </div>
       </div>
       <div className="card-column account-item-info-wrapper">
         <h2 className="card-title small-margin">Delegation</h2>
         <div className="delegation-account item">
           {account
-            ? (
-              <Fragment>
-                {account.shelleyAccountInfo.delegation.ticker}
-                <button
-                  className="button primary nowrap account-button"
-                  onClick={() => shouldShowDelegationModal(`Delegate Account ${i} Stake`)}
-                >
-                    D
-                </button>
-              </Fragment>
-            ) || '-'
+            ? <Fragment>{account.shelleyAccountInfo.delegation.ticker}</Fragment> || '-'
             : '-'}
+        </div>
+        <div className="account-action-buttons">
+          <button
+            className="button primary nowrap account-button"
+            onClick={() => shouldShowDelegationModal(`Delegate Account ${i} Stake`)}
+          >
+            Delegate
+          </button>
         </div>
       </div>
     </div>

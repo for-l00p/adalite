@@ -1531,6 +1531,19 @@ li.main-tab input + label.selected:after {
   margin-left: 8px;
 }
 
+.account-action-buttons {
+  display: flex;
+}
+
+.account-action-buttons .account-button {
+  width: 40%;
+  height: 30px;
+  margin-top: 6px;
+  margin-right: 8px;
+  font-size: 12px;
+  margin-left: 0px;
+}
+
 /* AUTHENTICATION */
 
 .authentication {
@@ -5239,6 +5252,10 @@ input:checked + .slider:before {
     display: flex;
     justify-content: center;
     padding: unset;
+  }
+
+  .card-column > button {
+    width: 22%;
   }
 }
 
