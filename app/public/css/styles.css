@@ -1450,7 +1450,6 @@ li.main-tab input + label.selected:after {
 .card-column {
   padding-left: 8px;
   flex-grow: 1;
-  flex-basis: 25%;
 }
 
 .card-column > button {
@@ -1548,12 +1547,16 @@ li.main-tab input + label.selected:after {
 }
 
 .account-action-buttons .account-button {
-  width: 40%;
+  width: 78px;
   height: 30px;
   margin-top: 6px;
   margin-right: 8px;
   font-size: 12px;
   margin-left: 0px;
+}
+
+.account-action-buttons.desktop {
+  flex-direction: column;
 }
 
 /* AUTHENTICATION */
@@ -4798,6 +4801,11 @@ input:checked + .slider:before {
     margin-bottom: 6px;
   }
 
+  .account-action-buttons .account-button {
+    margin-top: unset;
+    margin-bottom: 16px;
+  }
+
   .card-title.small-margin {
     margin: unset;
   }
@@ -5235,6 +5243,10 @@ input:checked + .slider:before {
   .card-column > .item {
     margin-top: unset;
     margin-bottom: unset;
+  }
+
+  .card-column.tablet-offset {
+    margin-bottom: 36px;
   }
 
   .card.account {
