@@ -1183,8 +1183,6 @@ export default ({setState, getState}: {setState: SetStateFn; getState: GetStateF
     resetSendFormFields(newState)
     selectAdaliteStakepool(newState)
     resetTransactionSummary(newState)
-    toggleDisplayStakingPage(newState, 'Sending')
-    window.scrollTo({top: 0, behavior: 'smooth'})
   }
 
   const shouldShowSendTransactionModal = (state, address, title) => {
