@@ -18,11 +18,6 @@ const Account = ({
   shouldShowDelegationModal,
   shouldShowSendTransactionModal,
 }) => {
-  const buttonLabel = () => {
-    if (selectedAccount === i) return 'Active'
-    if (!account) return `Explore #${i}`
-    return `Activate #${i}`
-  }
   const Balance = ({value}: {value: Lovelace}) => (
     <Fragment>
       {printAda(value, 3)}
@@ -44,7 +39,7 @@ const Account = ({
             setAccount(i)
           }}
         >
-          {buttonLabel()}
+          {account ? 'Activate' : 'Explore'}
         </button>
       </div>
       <div className="card-column account-item-info-wrapper">
