@@ -8,6 +8,7 @@ import {AdaIcon} from '../../common/svg'
 import Alert from '../../common/alert'
 import SendTransactionModal from './sendTransactionModal'
 import DelegationModal from './delegationModal'
+import tooltip from '../../common/tooltip'
 
 const Account = ({
   i,
@@ -38,7 +39,7 @@ const Account = ({
       <div className="card-column account-button-wrapper">
         <h2 className="card-title small-margin account-header desktop">Account {i}</h2>
         <button
-          className="button primary nowrap"
+          className="button primary no-wrap"
           disabled={selectedAccount === i}
           onClick={() => {
             setAccount(i)
@@ -48,81 +49,75 @@ const Account = ({
         </button>
       </div>
       <div className="card-column account-item-info-wrapper">
-        <h2 className="card-title small-margin">Available balance</h2>
+        <h2 className="card-title small-margin no-wrap">
+          Available balance
+          {account &&
+            selectedAccount !== i && (
+            <Fragment>
+              <span {...tooltip(`Transfer funds to account ${i}`, true)}>
+                <a
+                  className="account-icon to-wallet"
+                  onClick={() =>
+                    shouldShowSendTransactionModal(
+                      firstAddressPerAccount[i],
+                      `Send ADA from account ${selectedAccount} to account ${i}`
+                    )
+                  }
+                />
+              </span>
+              <span {...tooltip(`Transfer funds from account ${i}`, true)}>
+                <a
+                  className="account-icon from-wallet"
+                  onClick={() =>
+                    shouldShowSendTransactionModal(
+                      firstAddressPerAccount[selectedAccount],
+                      `Send ADA from account ${i} to account ${selectedAccount}`
+                    )
+                  }
+                />
+              </span>
+            </Fragment>
+          )}
+        </h2>
         <div className="balance-amount small item">
           {account ? (
-            <Fragment>
-              <Balance
-                value={
-                  account.shelleyBalances.stakingBalance + account.shelleyBalances.nonStakingBalance
-                }
+            <Balance
+              value={
+                account.shelleyBalances.stakingBalance + account.shelleyBalances.nonStakingBalance
+              }
+            />
+          ) : (
+            '-'
+          )}
+        </div>
+      </div>
+      <div className="card-column account-item-info-wrapper">
+        <h2 className="card-title small-margin no-wrap">
+          Rewards balance
+          {account && (
+            <span {...tooltip(`Withdraw account ${i} rewards`, true)}>
+              <a className="account-icon withdraw" />
+            </span>
+          )}
+        </h2>
+        <div className="balance-amount small item">
+          {account ? <Balance value={account.shelleyBalances.rewardsAccountBalance} /> : '-'}
+        </div>
+      </div>
+      <div className="card-column account-item-info-wrapper">
+        <h2 className="card-title small-margin no-wrap">
+          Delegation
+          {account && (
+            <span {...tooltip(`Delegate account ${i} stake`, true)}>
+              <a
+                className="account-icon delegation"
+                onClick={() => shouldShowDelegationModal(`Delegate Account ${i} Stake`)}
               />
-              <button
-                className="button primary nowrap account-button"
-                disabled={selectedAccount === i}
-                onClick={() =>
-                  shouldShowSendTransactionModal(
-                    firstAddressPerAccount[selectedAccount],
-                    `Send ADA from account ${i} to account ${selectedAccount}`
-                  )
-                }
-              >
-                F
-              </button>
-              <button
-                className="button primary nowrap account-button"
-                disabled={selectedAccount === i}
-                onClick={() =>
-                  shouldShowSendTransactionModal(
-                    firstAddressPerAccount[i],
-                    `Send ADA from account ${selectedAccount} to account ${i}`
-                  )
-                }
-              >
-                T
-              </button>
-            </Fragment>
-          ) : (
-            '-'
+            </span>
           )}
-        </div>
-      </div>
-      <div className="card-column account-item-info-wrapper">
-        <h2 className="card-title small-margin">Rewards balance</h2>
-        <div className="balance-amount small item">
-          {account ? (
-            <Fragment>
-              <Balance value={account.shelleyBalances.rewardsAccountBalance} />
-              <button
-                className="button primary nowrap account-button"
-                onClick={() => {
-                  return
-                }}
-              >
-                W
-              </button>
-            </Fragment>
-          ) : (
-            '-'
-          )}
-        </div>
-      </div>
-      <div className="card-column account-item-info-wrapper">
-        <h2 className="card-title small-margin">Delegation</h2>
+        </h2>
         <div className="delegation-account item">
-          {account
-            ? (
-              <Fragment>
-                {account.shelleyAccountInfo.delegation.ticker}
-                <button
-                  className="button primary nowrap account-button"
-                  onClick={() => shouldShowDelegationModal(`Delegate Account ${i} Stake`)}
-                >
-                    D
-                </button>
-              </Fragment>
-            ) || '-'
-            : '-'}
+          {account ? account.shelleyAccountInfo.delegation.ticker || '-' : '-'}
         </div>
       </div>
     </div>

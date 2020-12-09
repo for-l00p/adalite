@@ -145,7 +145,7 @@ p.hey {
   color: rgba(96, 106, 113, 0.64);
 }
 
-.nowrap {
+.no-wrap {
   white-space: nowrap;
 }
 
@@ -1529,6 +1529,59 @@ li.main-tab input + label.selected:after {
   padding: 0px;
   margin-top: 6px;
   margin-left: 8px;
+}
+
+.account-icon {
+  position: relative;
+  padding-left: 16px;
+  color: rgba(96, 106, 113, 0.64);
+  margin-left: 6px;
+}
+
+.account-icon::before {
+  content: '';
+  position: absolute;
+  width: 13px;
+  height: 13px;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+
+.account-icon.to-wallet::before {
+  background-image: url('../assets/to_wallet.svg');
+}
+
+.account-icon.to-wallet:hover::before {
+  background-image: url('../assets/to_wallet_active.svg');
+}
+
+.account-icon.from-wallet::before {
+  background-image: url('../assets/from_wallet.svg');
+}
+
+.account-icon.from-wallet:hover::before {
+  background-image: url('../assets/from_wallet_active.svg');
+}
+
+.account-icon.withdraw::before {
+  background-image: url('../assets/cash-stack.svg');
+}
+
+.account-icon.withdraw:hover::before {
+  background-image: url('../assets/cash-stack_active.svg');
+}
+
+.account-icon.delegation::before {
+  background-image: url('../assets/person_fill.svg');
+}
+
+.account-icon.delegation:hover::before {
+  background-image: url('../assets/person_fill_active.svg');
 }
 
 /* AUTHENTICATION */
