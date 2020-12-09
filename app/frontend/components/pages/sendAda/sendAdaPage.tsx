@@ -62,7 +62,7 @@ interface Props {
   transactionFee: any
   balance: any
   showDonationFields: boolean
-  lockAddress: boolean
+  isModal: boolean
   title: string
 }
 
@@ -97,7 +97,7 @@ class SendAdaPage extends Component<Props> {
     txSuccessTab,
     balance,
     showDonationFields,
-    lockAddress,
+    isModal,
     title,
   }) {
     const sendFormValidationError =
@@ -114,7 +114,7 @@ class SendAdaPage extends Component<Props> {
 
     return (
       <div className="send card">
-        <h2 className="card-title">{title}</h2>
+        <h2 className={`card-title ${isModal ? 'show' : ''}`}>{title}</h2>
         <input
           type="text"
           id="send-address"
@@ -125,7 +125,7 @@ class SendAdaPage extends Component<Props> {
           onInput={updateAddress}
           autoComplete="off"
           onKeyDown={(e) => e.key === 'Enter' && this.amountField.focus()}
-          disabled={lockAddress}
+          disabled={isModal}
         />
         <div className="send-values">
           <label className="ada-label amount" htmlFor="send-amount">
@@ -232,7 +232,7 @@ class SendAdaPage extends Component<Props> {
 
 SendAdaPage.defaultProps = {
   showDonationFields: true,
-  lockAddress: false,
+  isModal: false,
   title: 'Send ADA',
 }
 
