@@ -1479,7 +1479,7 @@ li.main-tab input + label.selected:after {
   width: 100%;
 }
 
-.card.account-aggregated .balance {
+.card.account-aggregated > .balance {
   display: flex;
 }
 
@@ -4748,7 +4748,7 @@ input:checked + .slider:before {
   .tabinator li.primary:after {
     content: '';
     position: absolute;
-    top: -12px;
+    top: 16px;
     right: calc(50% + -36px);
     width: 6px;
     height: 6px;
