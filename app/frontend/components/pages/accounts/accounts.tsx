@@ -31,7 +31,7 @@ const Account = ({
   )
 
   return (
-    <div key={i} className="card account">
+    <div key={i} className={`card account ${selectedAccount === i ? 'selected' : ''}`}>
       <div className="header-wrapper mobile">
         <h2 className="card-title small-margin">Account {i}</h2>
       </div>

@@ -1493,6 +1493,10 @@ li.main-tab input + label.selected:after {
   align-items: center;
 }
 
+.card.account.selected {
+  background-color: #f9f7f7;
+}
+
 /* ACCOUNTS*/
 
 .accounts-wrapper {
