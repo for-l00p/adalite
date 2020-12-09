@@ -10,7 +10,7 @@ interface Props {
 }
 
 const DelegationModal = ({closeDelegationModal, title}: Props) => (
-  <Modal onRequestClose={closeDelegationModal}>
+  <Modal onRequestClose={closeDelegationModal} bodyClass="delegate">
     <DelegatePage withAccordion={false} title={title} />
   </Modal>
 )

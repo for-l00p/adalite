@@ -10,7 +10,7 @@ interface Props {
 }
 
 const SendTransactionModal = ({closeSendTransactionModal, title}: Props) => (
-  <Modal onRequestClose={closeSendTransactionModal}>
+  <Modal onRequestClose={closeSendTransactionModal} bodyClass="send">
     <SendAdaPage showDonationFields={false} isModal title={title} />
   </Modal>
 )

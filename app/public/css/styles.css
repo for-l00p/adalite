@@ -1022,6 +1022,14 @@ button[data-balloon] {
   overflow-y: auto;
 }
 
+.modal-body.send {
+  width: max(540px, calc(min(var(--width), 100%) * 0.5 - 44px));
+}
+
+.modal-body.delegate {
+  width: calc(min(var(--width), 100%) * 0.5 - 44px);
+}
+
 .modal-close {
   width: 16px;
   height: 16px;
@@ -4065,6 +4073,14 @@ input:checked + .slider:before {
     padding: 40px 16px;
   }
 
+  .modal-body.send {
+    width: calc(100% - 32px);
+  }
+
+  .modal-body.delegate {
+    width: calc(100% - 32px);
+  }
+
   .modal-head {
     flex-direction: column-reverse;
     align-items: center;
@@ -4926,6 +4942,14 @@ input:checked + .slider:before {
   .modal-body {
     width: calc(100% - 32px);
     max-height: calc(100% - 32px);
+  }
+
+  .modal-body.send {
+    width: calc(100% - 96px);
+  }
+
+  .modal-body.delegate {
+    width: calc(100% - 96px);
   }
 
   .modal-body .alert {
