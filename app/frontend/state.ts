@@ -145,6 +145,7 @@ export interface State {
     shouldShowSaturatedBanner: boolean
   }
   accounts: any
+  activeAccount: number
   selectedAccount: number
   shouldShowSendTransactionModal: boolean
   shouldShowDelegationModal: boolean
@@ -258,6 +259,7 @@ const initialState: State = {
     shouldShowSaturatedBanner: false,
   },
   accounts: {},
+  activeAccount: 0,
   selectedAccount: 0,
   shouldShowSendTransactionModal: false,
   shouldShowDelegationModal: false,
