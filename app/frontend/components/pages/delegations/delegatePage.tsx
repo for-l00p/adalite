@@ -93,10 +93,12 @@ interface Props {
   title: string
 }
 
-class Delegate extends Component<Props> {
+class Delegate extends Component<Props, {dropShadow: boolean}> {
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      dropShadow: false,
+    }
   }
 
   componentDidMount() {
@@ -128,21 +130,29 @@ class Delegate extends Component<Props> {
     const validationError =
       delegationValidationError || stakePool.validationError || stakePool.poolHash === ''
 
-    const DelegationHeader = () => <h2 className="card-title no-margin">{title}</h2>
-    const DelegationContent = () => (
+    const delegationHeader = <h2 className="card-title no-margin">{title}</h2>
+    const delegationContent = (
       <Fragment>
         <div className="stake-pool">
           <ul className="stake-pool-list">
             <li className="stake-pool-item">
-              <input
-                type="text"
-                className="input stake-pool-id"
-                name={'pool'}
-                placeholder="Stake Pool ID"
-                value={stakePool.poolHash}
-                onInput={updateStakePoolIdentifier}
-                autoComplete="off"
-              />
+              <div
+                className={`input stake-pool-id delegation-input-row ${
+                  this.state.dropShadow ? 'focus' : ''
+                }`}
+              >
+                <div className="delegation-input-label">Stake Pool ID:</div>
+                <input
+                  type="text"
+                  className="delegation-input"
+                  name={'pool'}
+                  value={stakePool.poolHash}
+                  onInput={updateStakePoolIdentifier}
+                  autoComplete="off"
+                  onFocus={() => this.setState({dropShadow: true})}
+                  onBlur={() => this.setState({dropShadow: false})}
+                />
+              </div>
               <StakePoolInfo pool={stakePool} gettingPoolInfo={gettingPoolInfo} />
               <div />
             </li>
@@ -205,13 +215,13 @@ class Delegate extends Component<Props> {
             initialVisibility={
               poolRecommendation.shouldShowSaturatedBanner || !Object.keys(pool).length
             }
-            header={<DelegationHeader />}
-            body={<DelegationContent />}
+            header={delegationHeader}
+            body={delegationContent}
           />
         ) : (
           <Fragment>
-            <DelegationHeader />
-            <DelegationContent />
+            {delegationHeader}
+            {delegationContent}
           </Fragment>
         )}
       </div>
